@@ -2,4 +2,11 @@
 
 {% block content %}
   <h1>TODO list</h1>
+  <br>
+  {% for task in tasks_list %}
+    <h4>{{ task.name }} {{ task.is_completed }}</h4>
+    <p>Created: {{ task.created_at }} Deadline: {{ task.deadline }}</p>
+    <h4>Tags: {{ task.tag.all }} <a href="#">Update</a> <a href="#">Delete</a></h4>
+    <hr>
+  {% endfor %}
 {% endblock %}

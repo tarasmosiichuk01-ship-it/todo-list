@@ -1,10 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views import generic
+
+from tasks.models import Task
 
 
-class IndexView(TemplateView):
+class IndexView(generic.ListView):
+    model = Task
     template_name = "tasks/index.html"
+    context_object_name = "tasks_list"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
