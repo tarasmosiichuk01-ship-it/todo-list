@@ -7,37 +7,52 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=63, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=63, unique=True)),
             ],
             options={
-                'verbose_name': 'Tag',
-                'verbose_name_plural': 'Tags',
-                'ordering': ['name'],
+                "verbose_name": "Tag",
+                "verbose_name_plural": "Tags",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=63, unique=True)),
-                ('content', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('deadline', models.DateTimeField()),
-                ('is_completed', models.BooleanField(default=False)),
-                ('tag', models.ManyToManyField(related_name='tasks', to='tasks.tag')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=63, unique=True)),
+                ("content", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("deadline", models.DateTimeField()),
+                ("is_completed", models.BooleanField(default=False)),
+                ("tag", models.ManyToManyField(related_name="tasks", to="tasks.tag")),
             ],
             options={
-                'verbose_name': 'Task',
-                'verbose_name_plural': 'Tasks',
-                'ordering': ['is_completed', '-created_at'],
+                "verbose_name": "Task",
+                "verbose_name_plural": "Tasks",
+                "ordering": ["is_completed", "-created_at"],
             },
         ),
     ]
