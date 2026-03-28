@@ -1,4 +1,6 @@
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from tasks.models import Task, Tag
@@ -8,6 +10,9 @@ class IndexView(generic.ListView):
     model = Task
     template_name = "tasks/index.html"
     context_object_name = "tasks_list"
+
+    def get_queryset(self):
+        return Task.objects.prefetch_related("tag")
 
 
 class TaskCreateView(generic.CreateView):
@@ -46,3 +51,12 @@ class TagUpdateView(generic.UpdateView):
 class TagDeleteView(generic.DeleteView):
     model = Tag
     success_url = reverse_lazy("tasks:tag-list")
+
+
+class ToggleAssignToTaskView(generic.View):
+    def post(self, request, pk):
+        task = get_object_or_404(Task, pk=pk)
+        task.is_completed = not task.is_completed
+        task.save()
+        return HttpResponseRedirect(reverse("tasks:index"))
+

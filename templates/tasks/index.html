@@ -7,14 +7,39 @@
     </a>
   </h1>
   <br>
-  {% for task in tasks_list %}
-    <h4>{{ task.name }} {{ task.is_completed }}</h4>
-    <p>Created: {{ task.created_at }} Deadline: {{ task.deadline }}</p>
-    <h4>
-      Tags: {{ task.tag.all }}
-      <a href="{% url 'tasks:task-update' pk=task.id %}">Update</a>
-      <a href="{% url 'tasks:task-delete' pk=task.id %}">Delete</a>
-    </h4>
-    <hr>
-  {% endfor %}
+  {% if tasks_list %}
+    <ul>
+    {% for task in tasks_list %}
+      <h4>
+        {{ task.name }}
+        {% if task.is_completed %}
+          <span style="color: green">Done</span>
+        {% else %}
+          <span style="color: red">Not done</span>
+        {% endif %}
+
+        {% if task.is_completed == False %}
+          <form method="POST" action="{% url 'tasks:toggle-task-assign' pk=task.id %}" style="float: right; display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success link-to-page">Complete</button>
+          </form>
+        {% else %}
+          <form method="POST" action="{% url 'tasks:toggle-task-assign' pk=task.id %}" style="float: right; display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary link-to-page">Undo</button>
+          </form>
+        {% endif %}
+      </h4>
+      <p>Created: {{ task.created_at }} Deadline: {{ task.deadline }}</p>
+      <h4>
+        Tags: {{ task.tag.all|join:", " }}
+        <a href="{% url 'tasks:task-update' pk=task.id %}">Update</a>
+        <a href="{% url 'tasks:task-delete' pk=task.id %}">Delete</a>
+      </h4>
+      <hr>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no tasks</p>
+  {% endif %}
 {% endblock %}

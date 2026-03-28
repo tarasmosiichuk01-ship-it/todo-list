@@ -9,6 +9,7 @@ from tasks.views import (
     TagCreateView,
     TagUpdateView,
     TagDeleteView,
+    ToggleAssignToTaskView,
 )
 
 app_name = "tasks"
@@ -22,4 +23,5 @@ urlpatterns = [
     path("tags/create/", TagCreateView.as_view(), name="tag-create"),
     path("tags/<int:pk>/update/", TagUpdateView.as_view(), name="tag-update"),
     path("tags/<int:pk>/delete/", TagDeleteView.as_view(), name="tag-delete"),
+    path("tasks/<int:pk>/toggle-assign/", ToggleAssignToTaskView.as_view(), name="toggle-task-assign"),
 ]
